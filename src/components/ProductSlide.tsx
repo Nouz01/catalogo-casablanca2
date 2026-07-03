@@ -66,7 +66,7 @@ export function ProductSlide({
         </button>
       )}
 
-      <div className="pointer-events-none absolute left-0 top-0 flex h-[44%] w-[40%] flex-col gap-4 overflow-y-auto bg-gradient-to-b from-black via-black/70 to-transparent px-[6%] pb-10 pt-[18%] text-white">
+      <div className="no-scrollbar pointer-events-none absolute left-0 top-0 flex h-[44%] w-[40%] flex-col gap-4 overflow-y-auto overflow-x-hidden bg-gradient-to-b from-black via-black/70 to-transparent px-[6%] pb-10 pt-[18%] text-white">
         <div className="relative w-fit">
           <Link
             href="/login"
