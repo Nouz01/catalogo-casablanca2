@@ -6,10 +6,14 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
+// La vendedora escribe solo un nombre de usuario; por detrás se completa
+// con este dominio fijo para autenticar contra Supabase (que usa email).
+const LOGIN_DOMAIN = "casablanca.app";
+
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -18,11 +22,15 @@ function LoginForm() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    const input = username.trim().toLowerCase();
+    // Si ya escribieron un email completo (con @) se usa tal cual; si es solo
+    // un nombre de usuario, se le agrega el dominio fijo.
+    const email = input.includes("@") ? input : `${input}@${LOGIN_DOMAIN}`;
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) {
-      setError("Email o contraseña incorrectos.");
+      setError("Usuario o contraseña incorrectos.");
       return;
     }
     router.push(searchParams.get("next") ?? "/admin");
@@ -49,13 +57,16 @@ function LoginForm() {
         Panel de administración
       </p>
       <label className="mb-4 block text-base font-bold">
-        Email
+        Usuario
         <input
-          type="email"
+          type="text"
           required
+          autoCapitalize="none"
+          autoCorrect="off"
           autoComplete="username"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Ej. casablanca"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           className={inputClass}
         />
       </label>
