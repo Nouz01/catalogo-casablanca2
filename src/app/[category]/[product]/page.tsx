@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { ProductSlide } from "@/components/ProductSlide";
+import { LongPressAdminGate } from "@/components/LongPressAdminGate";
 import { storagePublicUrl } from "@/lib/images";
 
 export const dynamic = "force-dynamic";
@@ -47,13 +48,15 @@ export default async function ProductPage({
     : DEFAULT_LOGO;
 
   return (
-    <main className="flex h-dvh w-full justify-center bg-charcoal">
-      <ProductSlide
-        product={{ ...prod, images }}
-        brandName={settings?.brand_name ?? "Casablanca"}
-        logoUrl={logoUrl}
-        whatsappNumber={settings?.whatsapp_number ?? null}
-      />
-    </main>
+    <LongPressAdminGate>
+      <main className="flex h-dvh w-full justify-center bg-charcoal">
+        <ProductSlide
+          product={{ ...prod, images }}
+          brandName={settings?.brand_name ?? "Casablanca"}
+          logoUrl={logoUrl}
+          whatsappNumber={settings?.whatsapp_number ?? null}
+        />
+      </main>
+    </LongPressAdminGate>
   );
 }

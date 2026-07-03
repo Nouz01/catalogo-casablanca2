@@ -62,26 +62,11 @@ export function ProductSlide({
           </h1>
         </div>
         <hr className="w-10 border-white/40" />
-        <dl className="flex flex-col gap-3 text-xs sm:text-sm">
-          {product.detalles && (
-            <div>
-              <dt className="font-bold">Detalles</dt>
-              <dd className="text-white/75">{product.detalles}</dd>
-            </div>
-          )}
-          {product.beneficios && (
-            <div>
-              <dt className="font-bold">Beneficios</dt>
-              <dd className="text-white/75">{product.beneficios}</dd>
-            </div>
-          )}
-          {product.caracteristicas && (
-            <div>
-              <dt className="font-bold">Características</dt>
-              <dd className="text-white/75">{product.caracteristicas}</dd>
-            </div>
-          )}
-        </dl>
+        <div className="flex flex-col gap-2 text-xs sm:text-sm">
+          {product.detalles && <p className="text-white/75">{product.detalles}</p>}
+          {product.beneficios && <p className="text-white/75">{product.beneficios}</p>}
+          {product.caracteristicas && <p className="text-white/75">{product.caracteristicas}</p>}
+        </div>
         <hr className="w-10 border-white/40" />
         {product.price != null && (
           <div className="text-3xl font-extrabold sm:text-4xl">
