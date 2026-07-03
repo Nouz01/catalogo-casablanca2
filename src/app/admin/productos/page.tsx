@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { deleteProduct } from "./actions";
 import { DeleteButton } from "@/components/DeleteButton";
 import { storagePublicUrl } from "@/lib/images";
+import { relOne } from "@/lib/rel";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,7 @@ type ProductRow = {
   name: string;
   price: number | null;
   sort_order: number;
-  categories: { name: string }[] | null;
+  categories: { name: string } | { name: string }[] | null;
   product_images: { path: string; sort_order: number }[];
 };
 
@@ -70,7 +71,7 @@ export default async function ProductosPage() {
               <div className="min-w-0 flex-1">
                 <div className="truncate text-lg font-bold">{p.name}</div>
                 <div className="text-sm text-charcoal/50">
-                  {p.categories?.[0]?.name ?? "Sin categoría"}
+                  {relOne(p.categories)?.name ?? "Sin categoría"}
                   {p.price != null ? ` · $${p.price.toLocaleString("es-AR")}` : ""}
                 </div>
                 <div className="mt-2 flex items-center gap-4">

@@ -1,12 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { ProductSlide } from "@/components/ProductSlide";
+import { CategoryFeed, type FeedProduct } from "@/components/CategoryFeed";
 import { storagePublicUrl } from "@/lib/images";
+import { relOne } from "@/lib/rel";
 
 export const dynamic = "force-dynamic";
 
 const DEFAULT_LOGO = "/brand/casablanca-logo-white.png";
+
+type CategoryRel = { name: string; sort_order: number };
+
+type RawProduct = {
+  id: string;
+  name: string;
+  price: number | null;
+  detalles: string | null;
+  beneficios: string | null;
+  caracteristicas: string | null;
+  sort_order: number;
+  categories: CategoryRel | CategoryRel[] | null;
+  product_images: { id: string; path: string; sort_order: number }[];
+};
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -14,9 +29,8 @@ export default async function HomePage() {
   const { data: products } = await supabase
     .from("products")
     .select(
-      "id, name, price, detalles, beneficios, caracteristicas, sort_order, product_images(id, path, sort_order)"
-    )
-    .order("sort_order", { ascending: true });
+      "id, name, price, detalles, beneficios, caracteristicas, sort_order, categories(name, sort_order), product_images(id, path, sort_order)"
+    );
 
   const { data: settings } = await supabase
     .from("settings")
@@ -49,40 +63,39 @@ export default async function HomePage() {
     );
   }
 
+  // Agrupar por categoría (según el orden de la categoría, luego del producto)
+  // para que el feed recorra una categoría completa antes de pasar a la siguiente.
+  const feedProducts: FeedProduct[] = (products as RawProduct[])
+    .map((p) => {
+      const cat = relOne(p.categories);
+      return {
+        ...p,
+        categoryName: cat?.name ?? "Sin categoría",
+        categoryOrder: cat?.sort_order ?? 9999,
+        images: [...(p.product_images ?? [])].sort((a, b) => a.sort_order - b.sort_order),
+      };
+    })
+    .sort((a, b) => {
+      if (a.categoryOrder !== b.categoryOrder) return a.categoryOrder - b.categoryOrder;
+      return a.sort_order - b.sort_order;
+    })
+    .map(({ id, name, price, detalles, beneficios, caracteristicas, categoryName, images }) => ({
+      id,
+      name,
+      price,
+      detalles,
+      beneficios,
+      caracteristicas,
+      categoryName,
+      images,
+    }));
+
   return (
-    <main className="no-scrollbar h-dvh w-full snap-y snap-mandatory overflow-y-scroll overscroll-contain bg-charcoal">
-      {products.map(
-        (
-          p: {
-            id: string;
-            name: string;
-            price: number | null;
-            detalles: string | null;
-            beneficios: string | null;
-            caracteristicas: string | null;
-            product_images: { id: string; path: string; sort_order: number }[];
-          },
-          index: number
-        ) => {
-          const images = [...(p.product_images ?? [])].sort(
-            (a, b) => a.sort_order - b.sort_order
-          );
-          return (
-            <section
-              key={p.id}
-              className="flex h-dvh w-full snap-start snap-always justify-center"
-            >
-              <ProductSlide
-                product={{ ...p, images }}
-                brandName={brandName}
-                logoUrl={logoUrl}
-                whatsappNumber={whatsappNumber}
-                priority={index === 0}
-              />
-            </section>
-          );
-        }
-      )}
-    </main>
+    <CategoryFeed
+      products={feedProducts}
+      brandName={brandName}
+      logoUrl={logoUrl}
+      whatsappNumber={whatsappNumber}
+    />
   );
 }

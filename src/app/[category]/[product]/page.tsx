@@ -1,7 +1,9 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { ProductSlide } from "@/components/ProductSlide";
 import { storagePublicUrl } from "@/lib/images";
+import { CATEGORY_PILL_CLASS } from "@/lib/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +19,7 @@ export default async function ProductPage({
 
   const { data: cat } = await supabase
     .from("categories")
-    .select("id")
+    .select("id, name")
     .eq("slug", category)
     .maybeSingle();
   if (!cat) notFound();
@@ -47,7 +49,14 @@ export default async function ProductPage({
     : DEFAULT_LOGO;
 
   return (
-    <main className="flex h-dvh w-full justify-center bg-charcoal">
+    <main className="relative flex h-dvh w-full justify-center bg-charcoal">
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-center">
+        <div className="flex w-full max-w-[520px] justify-end p-4">
+          <Link href="/" className={`pointer-events-auto active:scale-95 ${CATEGORY_PILL_CLASS}`}>
+            {cat.name}
+          </Link>
+        </div>
+      </div>
       <ProductSlide
         product={{ ...prod, images }}
         brandName={settings?.brand_name ?? "Casablanca"}
