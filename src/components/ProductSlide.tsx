@@ -48,17 +48,19 @@ export function ProductSlide({
         </button>
       )}
 
-      <div className="pointer-events-none absolute inset-0 flex flex-col justify-start gap-4 bg-gradient-to-r from-black/90 via-black/45 to-transparent px-[6%] pb-10 pt-[9%] text-white sm:max-w-[62%]">
-        <Image
-          src={logoUrl}
-          alt={brandName}
-          width={220}
-          height={86}
-          className="pointer-events-auto mx-auto h-auto w-24 sm:w-28"
-        />
-        <h1 className="text-xl font-extrabold uppercase leading-tight sm:text-2xl">
-          {product.name}
-        </h1>
+      <div className="pointer-events-none absolute inset-0 flex flex-col justify-start gap-4 bg-gradient-to-r from-black/90 via-black/45 to-transparent px-[6%] pb-10 pt-[18%] text-white sm:max-w-[62%]">
+        <div className="relative w-fit">
+          <Image
+            src={logoUrl}
+            alt={brandName}
+            width={220}
+            height={86}
+            className="pointer-events-auto absolute bottom-full left-1/2 mb-3 h-auto w-24 -translate-x-1/2 sm:w-28"
+          />
+          <h1 className="text-xl font-extrabold uppercase leading-tight sm:text-2xl">
+            {product.name}
+          </h1>
+        </div>
         <hr className="w-10 border-white/40" />
         <dl className="flex flex-col gap-3 text-xs sm:text-sm">
           {product.detalles && (
