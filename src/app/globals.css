@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-montserrat);
+  --font-script: var(--font-parisienne);
+  --color-charcoal: #1d1d1b;
+  --color-cream: #f5efe6;
+  --color-gold: #c9a24b;
+  --color-sage: #92aea4;
+  --color-terracotta: #b5453a;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
