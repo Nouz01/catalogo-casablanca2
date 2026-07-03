@@ -54,7 +54,7 @@ export function ProductSlide({
           <Link
             href="/login"
             aria-label="Entrar al panel"
-            className="pointer-events-auto absolute bottom-full left-1/2 mb-3 block w-24 -translate-x-1/2 sm:w-28"
+            className="pointer-events-auto absolute bottom-full left-1/2 mb-3 block w-16 -translate-x-1/2 sm:w-20"
           >
             <Image
               src={logoUrl}
