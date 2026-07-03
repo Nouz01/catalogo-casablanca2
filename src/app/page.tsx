@@ -50,17 +50,20 @@ export default async function HomePage() {
   }
 
   return (
-    <main className="h-dvh w-full snap-y snap-mandatory overflow-y-scroll overscroll-contain bg-charcoal">
+    <main className="no-scrollbar h-dvh w-full snap-y snap-mandatory overflow-y-scroll overscroll-contain bg-charcoal">
       {products.map(
-        (p: {
-          id: string;
-          name: string;
-          price: number | null;
-          detalles: string | null;
-          beneficios: string | null;
-          caracteristicas: string | null;
-          product_images: { id: string; path: string; sort_order: number }[];
-        }) => {
+        (
+          p: {
+            id: string;
+            name: string;
+            price: number | null;
+            detalles: string | null;
+            beneficios: string | null;
+            caracteristicas: string | null;
+            product_images: { id: string; path: string; sort_order: number }[];
+          },
+          index: number
+        ) => {
           const images = [...(p.product_images ?? [])].sort(
             (a, b) => a.sort_order - b.sort_order
           );
@@ -74,6 +77,7 @@ export default async function HomePage() {
                 brandName={brandName}
                 logoUrl={logoUrl}
                 whatsappNumber={whatsappNumber}
+                priority={index === 0}
               />
             </section>
           );

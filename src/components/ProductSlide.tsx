@@ -11,6 +11,7 @@ export function ProductSlide({
   brandName,
   logoUrl,
   whatsappNumber,
+  priority = false,
 }: {
   product: {
     name: string;
@@ -23,6 +24,7 @@ export function ProductSlide({
   brandName: string;
   logoUrl: string;
   whatsappNumber: string | null;
+  priority?: boolean;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -38,13 +40,14 @@ export function ProductSlide({
           className="absolute inset-0 block h-full w-full"
         >
           <Image
+            key={active.id}
             src={storagePublicUrl("product-images", active.path)}
             alt={product.name}
             fill
             sizes="520px"
-            quality={90}
-            className="object-cover"
-            preload
+            quality={85}
+            className="animate-fade object-cover"
+            preload={priority}
           />
         </button>
       )}
@@ -61,6 +64,7 @@ export function ProductSlide({
               alt={brandName}
               width={220}
               height={86}
+              priority={priority}
               className="h-auto w-full"
             />
           </Link>
@@ -98,7 +102,7 @@ export function ProductSlide({
                 key={img.id}
                 type="button"
                 onClick={() => setActiveIndex(i)}
-                className={`relative aspect-square overflow-hidden rounded-xl border-2 ${
+                className={`relative aspect-square overflow-hidden rounded-xl border-2 transition-transform duration-150 active:scale-95 ${
                   i === activeIndex ? "border-white" : "border-white/30"
                 }`}
               >
@@ -106,7 +110,8 @@ export function ProductSlide({
                   src={storagePublicUrl("product-images", img.path)}
                   alt=""
                   fill
-                  sizes="120px"
+                  sizes="110px"
+                  quality={60}
                   className="object-cover"
                 />
               </button>
@@ -117,16 +122,23 @@ export function ProductSlide({
 
       {lightboxOpen && active && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+          className="fixed inset-0 z-50 flex animate-fade items-center justify-center bg-black/95 p-4"
           onClick={() => setLightboxOpen(false)}
         >
+          <button
+            type="button"
+            aria-label="Cerrar"
+            className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-2xl text-white"
+          >
+            ✕
+          </button>
           <div className="relative h-full w-full max-w-3xl">
             <Image
               src={storagePublicUrl("product-images", active.path)}
               alt={product.name}
               fill
               sizes="100vw"
-              quality={95}
+              quality={90}
               className="object-contain"
             />
           </div>

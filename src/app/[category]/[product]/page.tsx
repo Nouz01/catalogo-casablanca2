@@ -53,6 +53,7 @@ export default async function ProductPage({
         brandName={settings?.brand_name ?? "Casablanca"}
         logoUrl={logoUrl}
         whatsappNumber={settings?.whatsapp_number ?? null}
+        priority
       />
     </main>
   );
