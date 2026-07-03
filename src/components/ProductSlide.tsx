@@ -48,7 +48,7 @@ export function ProductSlide({
         </button>
       )}
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 flex flex-col gap-4 bg-gradient-to-r from-black/90 via-black/45 to-transparent px-[6%] pb-10 pt-[18%] text-white sm:w-[62%]">
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex h-[44%] flex-col gap-4 overflow-y-auto bg-gradient-to-r from-black/90 via-black/45 to-transparent px-[6%] pb-10 pt-[18%] text-white sm:w-[62%]">
         <div className="relative w-fit">
           <Image
             src={logoUrl}
