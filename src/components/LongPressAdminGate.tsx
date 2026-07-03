@@ -3,7 +3,7 @@
 import { useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 
-const HOLD_MS = 800;
+const HOLD_MS = 700;
 const MOVE_THRESHOLD = 12;
 
 export function LongPressAdminGate({ children }: { children: React.ReactNode }) {
@@ -43,12 +43,17 @@ export function LongPressAdminGate({ children }: { children: React.ReactNode }) 
 
   return (
     <div
-      className="contents"
+      style={{
+        WebkitTouchCallout: "none",
+        WebkitUserSelect: "none",
+        userSelect: "none",
+      }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={clear}
       onPointerCancel={clear}
       onPointerLeave={clear}
+      onContextMenu={(e) => e.preventDefault()}
     >
       {children}
     </div>

@@ -57,7 +57,7 @@ export function ProductSlide({
             height={86}
             className="pointer-events-auto absolute bottom-full left-1/2 mb-3 h-auto w-24 -translate-x-1/2 sm:w-28"
           />
-          <h1 className="text-xl font-extrabold uppercase leading-tight sm:text-2xl">
+          <h1 className="break-words text-base font-extrabold uppercase leading-tight sm:text-2xl">
             {product.name}
           </h1>
         </div>
