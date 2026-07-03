@@ -32,7 +32,21 @@ export function ProductSlide({
   const active = images[activeIndex];
 
   return (
-    <div className="relative h-full w-full max-w-[520px] bg-neutral-600">
+    <div className="relative h-full w-full overflow-hidden bg-charcoal">
+      {/* Fondo difuminado que llena los costados en pantallas anchas (PC) */}
+      {active && (
+        <Image
+          src={storagePublicUrl("product-images", active.path)}
+          alt=""
+          aria-hidden
+          fill
+          sizes="520px"
+          quality={85}
+          className="scale-110 object-cover opacity-40 blur-2xl"
+        />
+      )}
+
+      <div className="relative mx-auto h-full w-full max-w-[520px] overflow-hidden bg-neutral-600 shadow-2xl">
       {active && (
         <button
           type="button"
@@ -144,6 +158,7 @@ export function ProductSlide({
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }
