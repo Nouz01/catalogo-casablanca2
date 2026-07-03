@@ -1,7 +1,11 @@
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { ProductSlide } from "@/components/ProductSlide";
+import { storagePublicUrl } from "@/lib/images";
 
 export const dynamic = "force-dynamic";
+
+const DEFAULT_LOGO = "/brand/casablanca-logo-white.png";
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -15,18 +19,27 @@ export default async function HomePage() {
 
   const { data: settings } = await supabase
     .from("settings")
-    .select("brand_name, whatsapp_number")
+    .select("brand_name, whatsapp_number, logo_path")
     .eq("id", 1)
     .maybeSingle();
 
   const brandName = settings?.brand_name ?? "Casablanca";
   const whatsappNumber = settings?.whatsapp_number ?? null;
+  const logoUrl = settings?.logo_path
+    ? storagePublicUrl("branding", settings.logo_path)
+    : DEFAULT_LOGO;
 
   if (!products?.length) {
     return (
       <main className="flex h-dvh items-center justify-center bg-charcoal px-6 text-center">
         <div>
-          <div className="mb-4 font-script text-4xl text-gold">{brandName}</div>
+          <Image
+            src={logoUrl}
+            alt={brandName}
+            width={220}
+            height={86}
+            className="mx-auto mb-4 h-auto w-32"
+          />
           <p className="text-white/60">Todavía no hay productos cargados en el catálogo.</p>
         </div>
       </main>
@@ -56,6 +69,7 @@ export default async function HomePage() {
               <ProductSlide
                 product={{ ...p, images }}
                 brandName={brandName}
+                logoUrl={logoUrl}
                 whatsappNumber={whatsappNumber}
               />
             </section>

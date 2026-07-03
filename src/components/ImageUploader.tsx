@@ -21,8 +21,8 @@ export function ImageUploader({ productId }: { productId: string }) {
     try {
       for (const file of Array.from(files)) {
         const compressed = await imageCompression(file, {
-          maxSizeMB: 1,
-          maxWidthOrHeight: 1600,
+          maxSizeMB: 2,
+          maxWidthOrHeight: 2400,
           useWebWorker: true,
         });
 
