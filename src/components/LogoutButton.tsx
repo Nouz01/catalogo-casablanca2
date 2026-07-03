@@ -13,9 +13,9 @@ export function LogoutButton() {
         router.push("/login");
         router.refresh();
       }}
-      className="text-xs uppercase tracking-widest text-charcoal/50 hover:text-charcoal"
+      className="rounded-full border border-charcoal/20 px-4 py-2 text-sm font-bold text-charcoal/70 active:scale-95"
     >
-      Cerrar sesión
+      Salir
     </button>
   );
 }

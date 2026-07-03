@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { storagePublicUrl } from "@/lib/images";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 
@@ -50,13 +51,19 @@ export function ProductSlide({
 
       <div className="pointer-events-none absolute left-0 top-0 flex h-[44%] w-[40%] flex-col gap-4 overflow-y-auto bg-gradient-to-b from-black via-black/70 to-transparent px-[6%] pb-10 pt-[18%] text-white">
         <div className="relative w-fit">
-          <Image
-            src={logoUrl}
-            alt={brandName}
-            width={220}
-            height={86}
-            className="pointer-events-auto absolute bottom-full left-1/2 mb-3 h-auto w-24 -translate-x-1/2 sm:w-28"
-          />
+          <Link
+            href="/login"
+            aria-label="Entrar al panel"
+            className="pointer-events-auto absolute bottom-full left-1/2 mb-3 block w-24 -translate-x-1/2 sm:w-28"
+          >
+            <Image
+              src={logoUrl}
+              alt={brandName}
+              width={220}
+              height={86}
+              className="h-auto w-full"
+            />
+          </Link>
           <h1 className="break-words text-base font-extrabold uppercase leading-tight sm:text-2xl">
             {product.name}
           </h1>

@@ -1,3 +1,6 @@
+const inputClass =
+  "mt-1.5 w-full rounded-xl border border-charcoal/20 bg-white px-4 py-3 text-base outline-none focus:border-gold";
+
 export function ProductFormFields({
   categories,
   defaultValues,
@@ -14,25 +17,27 @@ export function ProductFormFields({
 }) {
   return (
     <>
-      <label className="text-sm">
-        Nombre
+      <label className="block text-base font-bold">
+        Nombre del producto
         <input
           name="name"
           required
           defaultValue={defaultValues?.name}
-          className="mt-1 w-full rounded-lg border border-charcoal/20 px-3 py-2"
+          placeholder="Ej. Acolchado Oro"
+          className={inputClass}
         />
       </label>
-      <label className="text-sm">
+
+      <label className="block text-base font-bold">
         Categoría
         <select
           name="category_id"
           required
           defaultValue={defaultValues?.category_id ?? ""}
-          className="mt-1 w-full rounded-lg border border-charcoal/20 px-3 py-2"
+          className={inputClass}
         >
           <option value="" disabled>
-            Elegir categoría
+            Elegir categoría…
           </option>
           {categories.map((c) => (
             <option key={c.id} value={c.id}>
@@ -41,43 +46,54 @@ export function ProductFormFields({
           ))}
         </select>
       </label>
-      <label className="text-sm">
+
+      <label className="block text-base font-bold">
         Precio
         <input
           type="number"
+          inputMode="decimal"
           step="0.01"
           name="price"
           defaultValue={defaultValues?.price ?? undefined}
-          className="mt-1 w-full rounded-lg border border-charcoal/20 px-3 py-2"
+          placeholder="Ej. 20000"
+          className={inputClass}
         />
       </label>
-      <label className="text-sm">
-        Detalles
-        <textarea
-          name="detalles"
-          defaultValue={defaultValues?.detalles ?? undefined}
-          rows={2}
-          className="mt-1 w-full rounded-lg border border-charcoal/20 px-3 py-2"
-        />
-      </label>
-      <label className="text-sm">
-        Beneficios
-        <textarea
-          name="beneficios"
-          defaultValue={defaultValues?.beneficios ?? undefined}
-          rows={2}
-          className="mt-1 w-full rounded-lg border border-charcoal/20 px-3 py-2"
-        />
-      </label>
-      <label className="text-sm">
-        Características
-        <textarea
-          name="caracteristicas"
-          defaultValue={defaultValues?.caracteristicas ?? undefined}
-          rows={2}
-          className="mt-1 w-full rounded-lg border border-charcoal/20 px-3 py-2"
-        />
-      </label>
+
+      <div className="rounded-2xl bg-charcoal/[0.03] p-4">
+        <p className="mb-3 text-sm font-semibold text-charcoal/50">
+          Estos textos aparecen junto al producto (podés dejarlos vacíos)
+        </p>
+        <div className="flex flex-col gap-4">
+          <label className="block text-base font-bold">
+            Detalles
+            <input
+              name="detalles"
+              defaultValue={defaultValues?.detalles ?? undefined}
+              placeholder="Ej. 2 plazas"
+              className={inputClass}
+            />
+          </label>
+          <label className="block text-base font-bold">
+            Beneficios
+            <input
+              name="beneficios"
+              defaultValue={defaultValues?.beneficios ?? undefined}
+              placeholder="Ej. Bien abrigado"
+              className={inputClass}
+            />
+          </label>
+          <label className="block text-base font-bold">
+            Características
+            <input
+              name="caracteristicas"
+              defaultValue={defaultValues?.caracteristicas ?? undefined}
+              placeholder="Ej. Relleno de guata"
+              className={inputClass}
+            />
+          </label>
+        </div>
+      </div>
     </>
   );
 }

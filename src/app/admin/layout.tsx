@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { LogoutButton } from "@/components/LogoutButton";
+import { AdminNav } from "@/components/AdminNav";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -12,17 +12,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!user) redirect("/login");
 
   return (
-    <div className="min-h-screen bg-cream">
-      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-charcoal/10 bg-white px-6 py-4">
-        <nav className="flex flex-wrap items-center gap-6 text-sm font-semibold">
-          <span className="font-script text-xl text-gold">Casablanca · Admin</span>
-          <Link href="/admin/productos">Productos</Link>
-          <Link href="/admin/categorias">Categorías</Link>
-          <Link href="/admin/ajustes">Ajustes</Link>
-        </nav>
+    <div className="min-h-screen bg-cream pb-24">
+      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-charcoal/10 bg-white px-5 py-4">
+        <span className="text-lg font-extrabold text-charcoal">Panel Casablanca</span>
         <LogoutButton />
       </header>
-      <div className="mx-auto max-w-5xl px-6 py-10">{children}</div>
+      <div className="mx-auto max-w-2xl px-4 py-6">{children}</div>
+      <AdminNav />
     </div>
   );
 }

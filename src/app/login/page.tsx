@@ -1,6 +1,8 @@
 "use client";
 
 import { Suspense, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
@@ -20,47 +22,72 @@ function LoginForm() {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) {
-      setError("Usuario o contraseña incorrectos.");
+      setError("Email o contraseña incorrectos.");
       return;
     }
     router.push(searchParams.get("next") ?? "/admin");
     router.refresh();
   }
 
+  const inputClass =
+    "mt-1.5 w-full rounded-xl border border-charcoal/20 bg-white px-4 py-3.5 text-base outline-none focus:border-gold";
+
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-sm rounded-2xl bg-cream p-8 shadow-xl">
-      <h1 className="mb-1 font-script text-3xl text-charcoal">Casablanca</h1>
-      <p className="mb-6 text-xs uppercase tracking-widest text-charcoal/50">
+    <form onSubmit={handleSubmit} className="w-full max-w-sm rounded-3xl bg-cream p-7 shadow-2xl">
+      <div className="mb-6 flex justify-center">
+        <div className="relative h-14 w-44">
+          <Image
+            src="/brand/casablanca-logo-white.png"
+            alt="Casablanca"
+            fill
+            sizes="176px"
+            className="object-contain brightness-0"
+          />
+        </div>
+      </div>
+      <p className="mb-6 text-center text-sm font-semibold uppercase tracking-widest text-charcoal/40">
         Panel de administración
       </p>
-      <label className="mb-3 block text-sm">
+      <label className="mb-4 block text-base font-bold">
         Email
         <input
           type="email"
           required
+          autoComplete="username"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 w-full rounded-lg border border-charcoal/20 px-3 py-2"
+          className={inputClass}
         />
       </label>
-      <label className="mb-4 block text-sm">
+      <label className="mb-5 block text-base font-bold">
         Contraseña
         <input
           type="password"
           required
+          autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mt-1 w-full rounded-lg border border-charcoal/20 px-3 py-2"
+          className={inputClass}
         />
       </label>
-      {error && <p className="mb-4 text-sm text-terracotta">{error}</p>}
+      {error && (
+        <p className="mb-4 rounded-xl bg-terracotta/15 px-4 py-3 text-base font-semibold text-terracotta">
+          ⚠️ {error}
+        </p>
+      )}
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-full bg-charcoal py-3 text-sm font-semibold uppercase tracking-wider text-cream disabled:opacity-50"
+        className="min-h-[54px] w-full rounded-xl bg-charcoal text-lg font-bold text-cream active:scale-[0.98] disabled:opacity-60"
       >
-        {loading ? "Entrando..." : "Entrar"}
+        {loading ? "Entrando…" : "Entrar"}
       </button>
+      <Link
+        href="/"
+        className="mt-4 block text-center text-sm font-semibold text-charcoal/50"
+      >
+        ← Volver al catálogo
+      </Link>
     </form>
   );
 }

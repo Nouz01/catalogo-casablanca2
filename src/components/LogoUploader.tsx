@@ -23,7 +23,7 @@ export function LogoUploader() {
         maxWidthOrHeight: 800,
         useWebWorker: true,
       });
-      const ext = file.name.split(".").pop() || "png";
+      const ext = (file.name.split(".").pop() || "png").toLowerCase();
       const path = `logo-${Date.now()}.${ext}`;
       const { error: uploadError } = await supabase.storage
         .from("branding")
@@ -45,8 +45,14 @@ export function LogoUploader() {
 
   return (
     <div>
-      <label className="inline-block cursor-pointer rounded-lg border-2 border-dashed border-charcoal/30 px-6 py-4 text-sm font-semibold text-charcoal/70 hover:border-gold hover:text-gold">
-        {uploading ? "Subiendo..." : "+ Subir logo"}
+      <label
+        className={`flex min-h-[60px] cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 border-dashed text-lg font-bold ${
+          uploading
+            ? "border-charcoal/20 text-charcoal/40"
+            : "border-gold/60 text-charcoal active:scale-[0.99]"
+        }`}
+      >
+        {uploading ? "Subiendo…" : "📷 Cambiar logo"}
         <input
           ref={inputRef}
           type="file"
@@ -56,7 +62,7 @@ export function LogoUploader() {
           className="hidden"
         />
       </label>
-      {error && <p className="mt-2 text-sm text-terracotta">{error}</p>}
+      {error && <p className="mt-2 text-base font-semibold text-terracotta">{error}</p>}
     </div>
   );
 }
